@@ -24,8 +24,8 @@ return new class extends Migration
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
             $table->string('container_number')->unique();
-            $table->string('booking_number')->unique();
-            $table->string('seal_number')->unique();
+            $table->string('booking_number')->unique()->nullable();
+            $table->string('seal_number')->unique()->nullable();
             $table->foreignId('transitor_id')->constrained('parties')->onDelete('cascade');
             $table->foreignId('shipping_id')->constrained('parties')->onDelete('cascade');
             $table->foreignId('customer_id')->nullable()->constrained('parties')->onDelete('cascade');

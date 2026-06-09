@@ -1,6 +1,6 @@
 <?php
 
-new class extends \Livewire\Volt\Component {
+new #[\Livewire\Attributes\Layout('components.layouts.app')] class extends \Livewire\Volt\Component {
     public string $password = '';
 
     /**
