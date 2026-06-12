@@ -22,6 +22,8 @@ class container extends Model
         'departure_date',
         'origin_port',
         'destination_port',
+        'origin_port_id',
+        'destination_port_id',
         'status',
         'is_group_container'
     ];
@@ -55,4 +57,13 @@ class container extends Model
         return $this->belongsTo(Party::class, 'vessel_id');
     }
 
+    public function originPort()
+    {
+        return $this->belongsTo(Port::class, 'origin_port_id');
+    }
+
+    public function destinationPort()
+    {
+        return $this->belongsTo(Port::class, 'destination_port_id');
+    }
 }

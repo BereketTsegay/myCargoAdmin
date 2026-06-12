@@ -69,7 +69,7 @@ new #[\Livewire\Attributes\Layout('components.layouts.app')] class extends \Live
         }
 
         return [
-            'containers' => $query->with(['transitor', 'shipping', 'customer', 'shipper', 'vessel'])->paginate(10),
+            'containers' => $query->with(['transitor', 'shipping', 'customer', 'shipper', 'vessel', 'originPort', 'destinationPort'])->paginate(10),
             'transitors' => \App\Models\Party::where('type', 'transitor')->get(),
             'shippings' => \App\Models\Party::where('type', 'shipping')->get(),
             'shippers' => \App\Models\Party::where('type', 'shipper')->get(),
@@ -218,7 +218,7 @@ new #[\Livewire\Attributes\Layout('components.layouts.app')] class extends \Live
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                {{ substr($container->origin_port, 0, 3) }} → {{ substr($container->destination_port, 0, 3) }}
+                                {{ $container->originPort?->name ?? 'N/A' }} → {{ $container->destinationPort?->name ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
                                 {{ $container->customer?->name ?? 'N/A' }}
@@ -279,8 +279,18 @@ new #[\Livewire\Attributes\Layout('components.layouts.app')] class extends \Live
 
             <!-- Row 3: Ports -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <flux:input wire:model="form.origin_port" label="Origin Port" placeholder="Enter origin port" required/>
-                <flux:input wire:model="form.destination_port" label="Destination Port" placeholder="Enter destination port" required/>
+                <flux:select wire:model="form.origin_port_id" label="Origin Port" placeholder="Select origin port" required>
+                    <flux:select.option value="">Select Origin Port</flux:select.option>
+                    @foreach(\App\Models\Port::all() as $port)
+                        <flux:select.option value="{{ $port->id }}">{{ $port->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:select wire:model="form.destination_port_id" label="Destination Port" placeholder="Select destination port" required>
+                    <flux:select.option value="">Select Destination Port</flux:select.option>
+                    @foreach(\App\Models\Port::all() as $port)
+                        <flux:select.option value="{{ $port->id }}">{{ $port->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
             </div>
 
             <!-- Row 4: Dates -->

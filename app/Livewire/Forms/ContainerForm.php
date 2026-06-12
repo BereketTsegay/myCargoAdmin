@@ -12,8 +12,8 @@ class ContainerForm extends Form
     public $booking_number;
     public $seal_number;
     public $container_type;
-    public $origin_port;
-    public $destination_port;
+    public $origin_port_id;
+    public $destination_port_id;
     public $arrival_date;
     public $departure_date;
     public $transitor_id;
@@ -34,8 +34,8 @@ class ContainerForm extends Form
             'booking_number' => 'nullable|unique:containers,booking_number,' . ($this->container->id ?? 'null'),
             'seal_number' => 'nullable|unique:containers,seal_number,' . ($this->container->id ?? 'null'),
             'container_type' => 'required|in:20ft,40ft,40ft_high_cube',
-            'origin_port' => 'nullable|string|max:255',
-            'destination_port' => 'nullable|string|max:255',
+            'origin_port_id' => 'nullable|exists:ports,id',
+            'destination_port_id' => 'nullable|exists:ports,id',
             'arrival_date' => 'nullable|date',
             'departure_date' => 'nullable|date|after_or_equal:arrival_date',
             'transitor_id' => 'required|exists:parties,id',
@@ -57,8 +57,8 @@ class ContainerForm extends Form
         $this->booking_number = $container->booking_number;
         $this->seal_number = $container->seal_number;
         $this->container_type = $container->container_type;
-        $this->origin_port = $container->origin_port;
-        $this->destination_port = $container->destination_port;
+        $this->origin_port_id = $container->origin_port_id;
+        $this->destination_port_id = $container->destination_port_id;
         $this->arrival_date = $container->arrival_date;
         $this->departure_date = $container->departure_date;
         $this->transitor_id = $container->transitor_id;
@@ -81,8 +81,8 @@ class ContainerForm extends Form
         $this->container->booking_number = $this->booking_number;
         $this->container->seal_number = $this->seal_number;
         $this->container->container_type = $this->container_type;
-        $this->container->origin_port = $this->origin_port;
-        $this->container->destination_port = $this->destination_port;
+        $this->container->origin_port_id = $this->origin_port_id;
+        $this->container->destination_port_id = $this->destination_port_id;
         $this->container->arrival_date = $this->arrival_date;
         $this->container->departure_date = $this->departure_date;
         $this->container->transitor_id = $this->transitor_id;
